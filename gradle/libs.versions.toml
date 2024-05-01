@@ -117,3 +117,5 @@ room = { id = "androidx.room", version.ref = "room" }
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "orgJetbrainsKotlinJvm" }
 androidDynamicFeature = { id = "com.android.dynamic-feature", version.ref = "agp" }
 mapsPlatformSecretsPlugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsPlugin"}
+
+runningtracker-android-application = { id = "runningtracker.android.application", version = "unspecified" }
