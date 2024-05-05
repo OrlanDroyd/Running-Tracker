@@ -9,4 +9,5 @@ plugins {
     alias(libs.plugins.room) apply false
     alias(libs.plugins.androidDynamicFeature) apply false
     alias(libs.plugins.mapsPlatformSecretsPlugin) apply false
+    alias(libs.plugins.detekt) apply false
 }
