@@ -119,3 +119,4 @@ androidDynamicFeature = { id = "com.android.dynamic-feature", version.ref = "agp
 mapsPlatformSecretsPlugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsPlugin"}
 
 runningtracker-android-application = { id = "runningtracker.android.application", version = "unspecified" }
+runningtracker-android-application-compose = { id = "runningtracker.android.application.compose", version = "unspecified" }
