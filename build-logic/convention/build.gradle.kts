@@ -42,5 +42,9 @@ gradlePlugin {
             id = "runningtracker.jvm.library"
             implementationClass = "JvmLibraryConventionPlugin"
         }
+        register("jvmKtor") {
+            id = "runningtracker.jvm.ktor"
+            implementationClass = "JvmKtorConventionPlugin"
+        }
     }
 }
