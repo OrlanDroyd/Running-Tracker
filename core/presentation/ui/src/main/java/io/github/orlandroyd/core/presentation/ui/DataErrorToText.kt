@@ -1,6 +1,6 @@
 package io.github.orlandroyd.core.presentation.ui
 
-import io.github.orlandroyd.core.domain.DataError
+import io.github.orlandroyd.core.domain.util.DataError
 
 fun DataError.asUiText(): UiText {
     return when (this) {

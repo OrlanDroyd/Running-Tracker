@@ -1,4 +1,4 @@
-package io.github.orlandroyd.core.domain
+package io.github.orlandroyd.core.domain.util
 
 sealed interface DataError : Error {
     enum class Network : DataError {
