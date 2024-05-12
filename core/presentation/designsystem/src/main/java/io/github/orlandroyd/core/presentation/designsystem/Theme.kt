@@ -22,7 +22,7 @@ val DarkColorScheme = darkColorScheme(
 )
 
 @Composable
-fun RunningTrackerTheme(
+fun RuniqueTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = DarkColorScheme
