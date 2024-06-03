@@ -1,5 +1,6 @@
-package io.github.orlandroyd.core.data
+package io.github.orlandroyd.core.data.networking
 
+import io.github.orlandroyd.core.data.BuildConfig
 import io.github.orlandroyd.core.domain.util.DataError
 import io.github.orlandroyd.core.domain.util.Result
 import io.ktor.client.HttpClient
