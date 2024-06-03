@@ -4,6 +4,7 @@ import android.app.Application
 import io.github.orlandroyd.auth.data.di.authDataModule
 import io.github.orlandroyd.auth.presentation.di.authViewModelModule
 import io.github.orlandroyd.core.data.di.coreDataModule
+import io.github.orlandroyd.run.presentation.di.runViewModelModule
 import io.github.orlandroyd.runningtracker.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -22,10 +23,11 @@ class RuniqueApp : Application() {
             androidLogger()
             androidContext(this@RuniqueApp)
             modules(
+                appModule,
+                coreDataModule,
                 authDataModule,
                 authViewModelModule,
-                appModule,
-                coreDataModule
+                runViewModelModule,
             )
         }
     }
