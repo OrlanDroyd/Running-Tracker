@@ -33,6 +33,7 @@ import io.github.orlandroyd.core.presentation.designsystem.components.RuniqueSca
 import io.github.orlandroyd.core.presentation.designsystem.components.RuniqueToolbar
 import io.github.orlandroyd.run.presentation.R
 import io.github.orlandroyd.run.presentation.active_run.components.RunDataCard
+import io.github.orlandroyd.run.presentation.active_run.maps.TrackerMap
 import io.github.orlandroyd.run.presentation.util.hasLocationPermission
 import io.github.orlandroyd.run.presentation.util.hasNotificationPermission
 import io.github.orlandroyd.run.presentation.util.shouldShowLocationPermissionRationale
@@ -143,6 +144,14 @@ private fun ActiveRunScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
+            TrackerMap(
+                isRunFinished = state.isRunFinished,
+                currentLocation = state.currentLocation,
+                locations = state.runData.locations,
+                onSnapshot = {},
+                modifier = Modifier
+                    .fillMaxSize()
+            )
             RunDataCard(
                 elapsedTime = state.elapsedTime,
                 runData = state.runData,
