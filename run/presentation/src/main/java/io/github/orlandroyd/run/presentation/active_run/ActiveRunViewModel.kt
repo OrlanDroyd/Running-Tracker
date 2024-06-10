@@ -33,22 +33,26 @@ class ActiveRunViewModel(
     private val isTracking = combine(
         shouldTrack,
         hasLocationPermission
-    ) { shouldTrack, hasLocationPermission ->
-        shouldTrack && hasLocationPermission
+    ) { shouldTrack, hasPermission ->
+        shouldTrack && hasPermission
     }.stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     init {
-        hasLocationPermission.onEach { hasLocationPermission ->
-            if (hasLocationPermission) {
-                runningTracker.startObservingLocation()
-            } else {
-                runningTracker.stopObservingLocation()
+        hasLocationPermission
+            .onEach { hasPermission ->
+                if (hasPermission) {
+                    runningTracker.startObservingLocation()
+                } else {
+                    runningTracker.stopObservingLocation()
+                }
             }
-        }.launchIn(viewModelScope)
+            .launchIn(viewModelScope)
 
-        isTracking.onEach { isTracking ->
-            runningTracker.setIsTracking(isTracking)
-        }.launchIn(viewModelScope)
+        isTracking
+            .onEach { isTracking ->
+                runningTracker.setIsTracking(isTracking)
+            }
+            .launchIn(viewModelScope)
 
         runningTracker
             .currentLocation
@@ -70,7 +74,6 @@ class ActiveRunViewModel(
                 state = state.copy(elapsedTime = it)
             }
             .launchIn(viewModelScope)
-
     }
 
     fun onAction(action: ActiveRunAction) {
@@ -79,17 +82,17 @@ class ActiveRunViewModel(
 
             }
 
-            ActiveRunAction.OnBackClick -> {
-                state = state.copy(shouldTrack = false)
-            }
-
             ActiveRunAction.OnResumeRunClick -> {
                 state = state.copy(shouldTrack = true)
             }
 
+            ActiveRunAction.OnBackClick -> {
+                state = state.copy(shouldTrack = false)
+            }
+
             ActiveRunAction.OnToggleRunClick -> {
                 state = state.copy(
-                    hasStartedRunning = false,
+                    hasStartedRunning = true,
                     shouldTrack = !state.shouldTrack
                 )
             }
@@ -113,8 +116,6 @@ class ActiveRunViewModel(
                     showLocationRationale = false
                 )
             }
-
-            else -> Unit
         }
     }
 }
