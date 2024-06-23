@@ -307,7 +307,7 @@ private fun RunListItemPreview() {
                 totalElevationMeters = 123,
                 mapPictureUrl = null
             ).toRunUi(),
-            onDeleteClick = { /*TODO*/ }
+            onDeleteClick = { }
         )
     }
 }
