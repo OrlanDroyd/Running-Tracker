@@ -4,6 +4,7 @@ import android.app.Application
 import io.github.orlandroyd.auth.data.di.authDataModule
 import io.github.orlandroyd.auth.presentation.di.authViewModelModule
 import io.github.orlandroyd.core.data.di.coreDataModule
+import io.github.orlandroyd.core.database.di.databaseModule
 import io.github.orlandroyd.run.location.di.locationModule
 import io.github.orlandroyd.run.presentation.di.runPresentationModule
 import io.github.orlandroyd.runningtracker.di.appModule
@@ -33,7 +34,8 @@ class RuniqueApp : Application() {
                 authDataModule,
                 authViewModelModule,
                 runPresentationModule,
-                locationModule
+                locationModule,
+                databaseModule
             )
         }
     }
