@@ -95,13 +95,22 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
                 }
             )
         }
-        composable(route = "active_run", deepLinks = listOf(
-            navDeepLink {
-                uriPattern = "runique://active_run"
-            }
-        )) {
+        composable(
+            route = "active_run",
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern = "runique://active_run"
+                }
+            )
+        ) {
             val context = LocalContext.current
             ActiveRunScreenRoot(
+                onBack = {
+                    navController.navigateUp()
+                },
+                onFinish = {
+                    navController.navigateUp()
+                },
                 onServiceToggle = { shouldServiceRun ->
                     if (shouldServiceRun) {
                         context.startService(
@@ -111,7 +120,9 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
                             )
                         )
                     } else {
-                        ActiveRunService.createStopIntent(context = context)
+                        context.startService(
+                            ActiveRunService.createStopIntent(context = context)
+                        )
                     }
                 }
             )

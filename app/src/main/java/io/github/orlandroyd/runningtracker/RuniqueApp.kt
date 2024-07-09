@@ -6,6 +6,7 @@ import io.github.orlandroyd.auth.presentation.di.authViewModelModule
 import io.github.orlandroyd.core.data.di.coreDataModule
 import io.github.orlandroyd.core.database.di.databaseModule
 import io.github.orlandroyd.run.location.di.locationModule
+import io.github.orlandroyd.run.network.di.networkModule
 import io.github.orlandroyd.run.presentation.di.runPresentationModule
 import io.github.orlandroyd.runningtracker.di.appModule
 import kotlinx.coroutines.CoroutineScope
@@ -35,7 +36,8 @@ class RuniqueApp : Application() {
                 authViewModelModule,
                 runPresentationModule,
                 locationModule,
-                databaseModule
+                databaseModule,
+                networkModule
             )
         }
     }
