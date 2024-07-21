@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Running Tracker</string>
+    <string name="title_dynamics_feature">Analytics</string>
 </resources>

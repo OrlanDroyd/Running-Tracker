@@ -1,5 +1,18 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":analytics:dynamics-feature")
+
+
+include(":analytics:presentation")
+
+
+include(":analytics:domain")
+
+
+
+include(":analytics:data")
+
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {
