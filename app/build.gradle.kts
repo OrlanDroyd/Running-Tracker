@@ -20,7 +20,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    dynamicFeatures += setOf(":analytics:dynamics-feature")
+    dynamicFeatures += setOf(":analytics:dynamics_feature")
 }
 
 dependencies {

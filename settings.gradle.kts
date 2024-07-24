@@ -1,6 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":analytics:dynamics-feature")
+include(":analytics:dynamics_feature")
 
 
 include(":analytics:presentation")
