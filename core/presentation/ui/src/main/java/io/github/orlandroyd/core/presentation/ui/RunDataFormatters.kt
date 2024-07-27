@@ -1,10 +1,12 @@
 package io.github.orlandroyd.core.presentation.ui
 
+import android.annotation.SuppressLint
 import kotlin.math.pow
 import kotlin.math.round
 import kotlin.math.roundToInt
 import kotlin.time.Duration
 
+@SuppressLint("DefaultLocale")
 fun Duration.formatted(): String {
     val totalSeconds = inWholeSeconds
     val hours = String.format("%02d", totalSeconds / (60 * 60))
