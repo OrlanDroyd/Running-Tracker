@@ -2,6 +2,7 @@ package io.github.orlandroyd.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import io.github.orlandroyd.core.database.dao.AnalyticsDao
 import io.github.orlandroyd.core.database.dao.RunDao
 import io.github.orlandroyd.core.database.dao.RunPendingSyncDao
 import io.github.orlandroyd.core.database.entity.DeletedRunSyncEntity
@@ -20,4 +21,5 @@ abstract class RunDatabase : RoomDatabase() {
 
     abstract val runDao: RunDao
     abstract val runPendingSyncDao: RunPendingSyncDao
+    abstract val analyticsDao: AnalyticsDao
 }

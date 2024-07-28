@@ -1,6 +1,8 @@
 package io.github.orlandroyd.runningtracker
 
 import android.app.Application
+import android.content.Context
+import com.google.android.play.core.splitcompat.SplitCompat
 import io.github.orlandroyd.auth.data.di.authDataModule
 import io.github.orlandroyd.auth.presentation.di.authViewModelModule
 import io.github.orlandroyd.core.data.di.coreDataModule
@@ -44,5 +46,10 @@ class RuniqueApp : Application() {
                 runDataModule
             )
         }
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        SplitCompat.install(this)
     }
 }
