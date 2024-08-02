@@ -1,5 +1,17 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":wear:run:presentation")
+
+
+include(":wear:run:domain")
+
+
+include(":wear:run:data")
+
+
+include(":wear:app")
+
+
 include(":analytics:dynamics_feature")
 
 

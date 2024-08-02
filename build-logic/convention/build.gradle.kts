@@ -22,6 +22,10 @@ gradlePlugin {
             id = "runningtracker.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
+        register("androidApplicationWearCompose") {
+            id = "runningtracker.android.application.wear.compose"
+            implementationClass = "AndroidApplicationWearComposeConventionPlugin"
+        }
         register("androidLibrary") {
             id = "runningtracker.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
