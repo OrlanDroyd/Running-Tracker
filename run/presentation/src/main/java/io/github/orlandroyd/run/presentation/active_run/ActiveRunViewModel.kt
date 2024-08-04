@@ -13,6 +13,7 @@ import io.github.orlandroyd.core.domain.util.Result
 import io.github.orlandroyd.core.presentation.ui.asUiText
 import io.github.orlandroyd.run.domain.LocationDataCalculator
 import io.github.orlandroyd.run.domain.RunningTracker
+import io.github.orlandroyd.run.domain.WatchConnector
 import io.github.orlandroyd.run.presentation.active_run.service.ActiveRunService
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +29,8 @@ import java.time.ZonedDateTime
 
 class ActiveRunViewModel(
     private val runningTracker: RunningTracker,
-    private val runRepository: RunRepository
+    private val runRepository: RunRepository,
+    private val watchConnector: WatchConnector
 ) : ViewModel() {
 
     var state by mutableStateOf(
@@ -139,6 +141,8 @@ class ActiveRunViewModel(
             is ActiveRunAction.OnRunProcessed -> {
                 finishRun(action.mapPictureBytes)
             }
+
+            else -> Unit
         }
     }
 

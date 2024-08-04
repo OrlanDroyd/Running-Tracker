@@ -1,5 +1,11 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core:connectivity:data")
+
+
+include(":core:connectivity:domain")
+
+
 include(":core:presentation:designsystem_wear")
 
 

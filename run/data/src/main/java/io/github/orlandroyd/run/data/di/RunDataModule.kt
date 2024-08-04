@@ -5,6 +5,8 @@ import io.github.orlandroyd.run.data.CreateRunWorker
 import io.github.orlandroyd.run.data.DeleteRunWorker
 import io.github.orlandroyd.run.data.FetchRunsWorker
 import io.github.orlandroyd.run.data.SyncRunWorkerScheduler
+import io.github.orlandroyd.run.data.connectivity.PhoneToWatchConnector
+import io.github.orlandroyd.run.domain.WatchConnector
 import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -16,4 +18,5 @@ val runDataModule = module {
     workerOf(::DeleteRunWorker)
 
     singleOf(::SyncRunWorkerScheduler).bind<SyncRunScheduler>()
+    singleOf(::PhoneToWatchConnector).bind<WatchConnector>()
 }
