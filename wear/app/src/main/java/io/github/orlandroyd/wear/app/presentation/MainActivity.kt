@@ -10,24 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.Text
-import io.github.orlandroyd.core.presentation.designsysteam_wear.RuniqueTheme
+import io.github.orlandroyd.core.presentation.designsystem_wear.RuniqueTheme
+import io.github.orlandroyd.wear.run.presentation.TrackerScreenRoot
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-
         super.onCreate(savedInstanceState)
-
         setContent {
             RuniqueTheme {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Button(onClick = { }) {
-                        Text(text = "Hello World!")
-                    }
-                }
+                TrackerScreenRoot()
             }
         }
     }

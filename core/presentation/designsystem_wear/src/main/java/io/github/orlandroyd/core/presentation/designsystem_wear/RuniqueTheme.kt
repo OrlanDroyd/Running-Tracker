@@ -1,4 +1,4 @@
-package io.github.orlandroyd.core.presentation.designsysteam_wear
+package io.github.orlandroyd.core.presentation.designsystem_wear
 
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.material3.ColorScheme
