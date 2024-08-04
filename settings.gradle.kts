@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core:presentation:designsystem_wear")
+
+
 include(":wear:run:presentation")
 
 
