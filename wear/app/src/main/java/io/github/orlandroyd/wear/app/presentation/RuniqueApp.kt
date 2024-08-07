@@ -1,7 +1,7 @@
 package io.github.orlandroyd.wear.app.presentation
 
 import android.app.Application
-import io.github.orlandroyd.core.connectivity.data.coreConnectivityDataModule
+import io.github.orlandroyd.core.connectivity.data.di.coreConnectivityDataModule
 import io.github.orlandroyd.wear.app.presentation.di.appModule
 import io.github.orlandroyd.wear.run.data.di.wearRunDataModule
 import io.github.orlandroyd.wear.run.presentation.di.wearRunPresentationModule
