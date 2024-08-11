@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.orlandroyd.core.presentation.designsystem.RuniqueTheme
 import io.github.orlandroyd.core.presentation.ui.formatted
+import io.github.orlandroyd.core.presentation.ui.toFormattedHeartRate
 import io.github.orlandroyd.core.presentation.ui.toFormattedKm
 import io.github.orlandroyd.core.presentation.ui.toFormattedPace
 import io.github.orlandroyd.run.domain.RunData
@@ -58,6 +59,12 @@ fun RunDataCard(
             RunDataItem(
                 title = stringResource(id = R.string.distance),
                 value = (runData.distanceMeters / 1000.0).toFormattedKm(),
+                modifier = Modifier
+                    .defaultMinSize(minWidth = 75.dp)
+            )
+            RunDataItem(
+                title = stringResource(id = R.string.heart_rate),
+                value = runData.heartRates.lastOrNull().toFormattedHeartRate(),
                 modifier = Modifier
                     .defaultMinSize(minWidth = 75.dp)
             )
@@ -102,10 +109,11 @@ private fun RunDataItem(
 private fun RunDataCardPreview() {
     RuniqueTheme {
         RunDataCard(
-            elapsedTime = 100.minutes,
+            elapsedTime = 10.minutes,
             runData = RunData(
-                distanceMeters = 3465,
-                pace = 39.minutes
+                distanceMeters = 3425,
+                pace = 3.minutes,
+                heartRates = listOf(150)
             )
         )
     }

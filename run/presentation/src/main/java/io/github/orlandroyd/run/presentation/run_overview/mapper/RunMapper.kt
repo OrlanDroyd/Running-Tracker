@@ -2,6 +2,7 @@ package io.github.orlandroyd.run.presentation.run_overview.mapper
 
 import io.github.orlandroyd.core.domain.run.Run
 import io.github.orlandroyd.core.presentation.ui.formatted
+import io.github.orlandroyd.core.presentation.ui.toFormattedHeartRate
 import io.github.orlandroyd.core.presentation.ui.toFormattedKm
 import io.github.orlandroyd.core.presentation.ui.toFormattedKmh
 import io.github.orlandroyd.core.presentation.ui.toFormattedMeters
@@ -28,6 +29,8 @@ fun Run.toRunUi(): RunUi {
         maxSpeed = maxSpeedKmh.toFormattedKmh(),
         pace = duration.toFormattedPace(distanceKm),
         totalElevation = totalElevationMeters.toFormattedMeters(),
-        mapPictureUrl = mapPictureUrl
+        mapPictureUrl = mapPictureUrl,
+        avgHeartRate = avgHeartRate.toFormattedHeartRate(),
+        maxHeartRate = maxHeartRate.toFormattedHeartRate()
     )
 }

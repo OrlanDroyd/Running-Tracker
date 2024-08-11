@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package io.github.orlandroyd.run.domain
 
+import io.github.orlandroyd.core.connectivity.domain.messaging.MessagingAction
 import io.github.orlandroyd.core.domain.Timer
 import io.github.orlandroyd.core.domain.location.LocationTimestamp
 import kotlinx.coroutines.CoroutineScope
@@ -7,12 +10,17 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.combineTransform
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.runningFold
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.zip
@@ -20,21 +28,17 @@ import kotlin.math.roundToInt
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class RunningTracker(
     private val locationObserver: LocationObserver,
-    private val applicationScope: CoroutineScope
+    applicationScope: CoroutineScope,
+    private val watchConnector: WatchConnector
 ) {
-
-    companion object {
-        const val DELAY_TIME_MILLIS = 1000L
-    }
-
     private val _runData = MutableStateFlow(RunData())
     val runData = _runData.asStateFlow()
 
     private val _isTracking = MutableStateFlow(false)
     val isTracking = _isTracking.asStateFlow()
+
     private val isObservingLocation = MutableStateFlow(false)
 
     private val _elapsedTime = MutableStateFlow(Duration.ZERO)
@@ -43,7 +47,7 @@ class RunningTracker(
     val currentLocation = isObservingLocation
         .flatMapLatest { isObservingLocation ->
             if (isObservingLocation) {
-                locationObserver.observeLocation(DELAY_TIME_MILLIS)
+                locationObserver.observeLocation(1000L)
             } else flowOf()
         }
         .stateIn(
@@ -52,8 +56,25 @@ class RunningTracker(
             null
         )
 
+    private val heartRates = isTracking
+        .flatMapLatest { isTracking ->
+            if (isTracking) {
+                watchConnector.messagingActions
+            } else flowOf()
+        }
+        .filterIsInstance<MessagingAction.HeartRateUpdate>()
+        .map { it.heartRate }
+        .runningFold(initial = emptyList<Int>()) { currentHeartRates, newHeartRate ->
+            currentHeartRates + newHeartRate
+        }
+        .stateIn(
+            applicationScope,
+            SharingStarted.Lazily,
+            emptyList()
+        )
+
     init {
-        isTracking
+        _isTracking
             .onEach { isTracking ->
                 if (!isTracking) {
                     val newList = buildList {
@@ -79,7 +100,7 @@ class RunningTracker(
 
         currentLocation
             .filterNotNull()
-            .combineTransform(isTracking) { location, isTracking ->
+            .combineTransform(_isTracking) { location, isTracking ->
                 if (isTracking) {
                     emit(location)
                 }
@@ -90,7 +111,7 @@ class RunningTracker(
                     durationTimestamp = elapsedTime
                 )
             }
-            .onEach { location ->
+            .combine(heartRates) { location, heartRates ->
                 val currentLocations = runData.value.locations
                 val lastLocationsList = if (currentLocations.isNotEmpty()) {
                     currentLocations.last() + location
@@ -113,9 +134,24 @@ class RunningTracker(
                     RunData(
                         distanceMeters = distanceMeters,
                         pace = avgSecondsPerKm.seconds,
-                        locations = newLocationsList
+                        locations = newLocationsList,
+                        heartRates = heartRates
                     )
                 }
+            }
+            .launchIn(applicationScope)
+
+        elapsedTime
+            .onEach {
+                watchConnector.sendActionToWatch(MessagingAction.TimeUpdate(it))
+            }
+            .launchIn(applicationScope)
+
+        runData
+            .map { it.distanceMeters }
+            .distinctUntilChanged()
+            .onEach {
+                watchConnector.sendActionToWatch(MessagingAction.DistanceUpdate(it))
             }
             .launchIn(applicationScope)
     }
@@ -126,10 +162,12 @@ class RunningTracker(
 
     fun startObservingLocation() {
         isObservingLocation.value = true
+        watchConnector.setIsTrackable(true)
     }
 
     fun stopObservingLocation() {
         isObservingLocation.value = false
+        watchConnector.setIsTrackable(false)
     }
 
     fun finishRun() {
@@ -138,7 +176,6 @@ class RunningTracker(
         _elapsedTime.value = Duration.ZERO
         _runData.value = RunData()
     }
-
 }
 
 private fun <T> List<List<T>>.replaceLast(replacement: List<T>): List<List<T>> {
