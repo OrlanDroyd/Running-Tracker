@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package io.github.orlandroyd.run.presentation.active_run
 
 import android.Manifest
@@ -18,11 +20,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.github.orlandroyd.core.notification.ActiveRunService
 import io.github.orlandroyd.core.presentation.designsystem.RuniqueTheme
 import io.github.orlandroyd.core.presentation.designsystem.StartIcon
 import io.github.orlandroyd.core.presentation.designsystem.StopIcon
@@ -36,7 +41,6 @@ import io.github.orlandroyd.core.presentation.ui.ObserveAsEvents
 import io.github.orlandroyd.run.presentation.R
 import io.github.orlandroyd.run.presentation.active_run.components.RunDataCard
 import io.github.orlandroyd.run.presentation.active_run.maps.TrackerMap
-import io.github.orlandroyd.run.presentation.active_run.service.ActiveRunService
 import io.github.orlandroyd.run.presentation.util.hasLocationPermission
 import io.github.orlandroyd.run.presentation.util.hasNotificationPermission
 import io.github.orlandroyd.run.presentation.util.shouldShowLocationPermissionRationale
@@ -69,12 +73,13 @@ fun ActiveRunScreenRoot(
         state = viewModel.state,
         onServiceToggle = onServiceToggle,
         onAction = { action ->
-            when(action) {
+            when (action) {
                 is ActiveRunAction.OnBackClick -> {
-                    if(!viewModel.state.hasStartedRunning) {
+                    if (!viewModel.state.hasStartedRunning) {
                         onBack()
                     }
                 }
+
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -82,7 +87,6 @@ fun ActiveRunScreenRoot(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ActiveRunScreen(
     state: ActiveRunState,
@@ -146,8 +150,9 @@ private fun ActiveRunScreen(
         }
     }
 
-    LaunchedEffect(key1 = state.shouldTrack) {
-        if (context.hasLocationPermission() && state.shouldTrack && !ActiveRunService.isServiceActive) {
+    val isServiceActive by ActiveRunService.isServiceActive.collectAsStateWithLifecycle()
+    LaunchedEffect(key1 = state.shouldTrack, isServiceActive) {
+        if (context.hasLocationPermission() && state.shouldTrack && !isServiceActive) {
             onServiceToggle(true)
         }
     }

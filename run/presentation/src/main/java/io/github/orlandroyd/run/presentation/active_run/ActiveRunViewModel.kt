@@ -11,11 +11,11 @@ import io.github.orlandroyd.core.domain.location.Location
 import io.github.orlandroyd.core.domain.run.Run
 import io.github.orlandroyd.core.domain.run.RunRepository
 import io.github.orlandroyd.core.domain.util.Result
+import io.github.orlandroyd.core.notification.ActiveRunService
 import io.github.orlandroyd.core.presentation.ui.asUiText
 import io.github.orlandroyd.run.domain.LocationDataCalculator
 import io.github.orlandroyd.run.domain.RunningTracker
 import io.github.orlandroyd.run.domain.WatchConnector
-import io.github.orlandroyd.run.presentation.active_run.service.ActiveRunService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,8 +39,8 @@ class ActiveRunViewModel(
 
     var state by mutableStateOf(
         ActiveRunState(
-            shouldTrack = ActiveRunService.isServiceActive && runningTracker.isTracking.value,
-            hasStartedRunning = ActiveRunService.isServiceActive
+            shouldTrack = ActiveRunService.isServiceActive.value && runningTracker.isTracking.value,
+            hasStartedRunning = ActiveRunService.isServiceActive.value
         )
     )
         private set
@@ -170,6 +170,7 @@ class ActiveRunViewModel(
                 finishRun(action.mapPictureBytes)
             }
 
+            else -> Unit
         }
     }
 
@@ -270,7 +271,7 @@ class ActiveRunViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        if (!ActiveRunService.isServiceActive) {
+        if (!ActiveRunService.isServiceActive.value) {
             applicationScope.launch {
                 watchConnector.sendActionToWatch(MessagingAction.Untrackable)
             }

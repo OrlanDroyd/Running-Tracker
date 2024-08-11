@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core:notification")
+
+
 include(":core:connectivity:data")
 
 

@@ -12,7 +12,7 @@ import io.github.orlandroyd.auth.presentation.intro.IntroScreenRoot
 import io.github.orlandroyd.auth.presentation.login.LoginScreenRoot
 import io.github.orlandroyd.auth.presentation.register.RegisterScreenRoot
 import io.github.orlandroyd.run.presentation.active_run.ActiveRunScreenRoot
-import io.github.orlandroyd.run.presentation.active_run.service.ActiveRunService
+import io.github.orlandroyd.core.notification.ActiveRunService
 import io.github.orlandroyd.run.presentation.run_overview.RunOverviewScreenRoot
 
 @Composable

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.orlandroyd.core.connectivity.domain.messaging.MessagingAction
 import io.github.orlandroyd.core.domain.util.Result
+import io.github.orlandroyd.core.notification.ActiveRunService
 import io.github.orlandroyd.wear.run.domain.ExerciseTracker
 import io.github.orlandroyd.wear.run.domain.PhoneConnector
 import io.github.orlandroyd.wear.run.domain.RunningTracker
@@ -29,7 +30,13 @@ class TrackerViewModel(
     private val runningTracker: RunningTracker
 ) : ViewModel() {
 
-    var state by mutableStateOf(TrackerState())
+    var state by mutableStateOf(
+        TrackerState(
+            hasStartedRunning = ActiveRunService.isServiceActive.value,
+            isRunActive = ActiveRunService.isServiceActive.value && runningTracker.isTracking.value,
+            isTrackable = ActiveRunService.isServiceActive.value
+        )
+    )
         private set
 
     private val hasBodySensorPermission = MutableStateFlow(false)
@@ -185,7 +192,7 @@ class TrackerViewModel(
             messagingAction?.let {
                 val result = phoneConnector.sendActionToPhone(it)
                 if (result is Result.Error) {
-                    println("Tracker error: ${result.error}") // TODO: Use Timber
+                    println("Tracker error: ${result.error}")
                 }
             }
         }
