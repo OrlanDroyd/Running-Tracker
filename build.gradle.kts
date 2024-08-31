@@ -10,4 +10,5 @@ plugins {
     alias(libs.plugins.androidDynamicFeature) apply false
     alias(libs.plugins.mapsPlatformSecretsPlugin) apply false
     alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.junit5) apply false
 }

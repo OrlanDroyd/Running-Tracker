@@ -1,5 +1,11 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core:android-test")
+
+
+include(":core:test")
+
+
 include(":core:notification")
 
 
