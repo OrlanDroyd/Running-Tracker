@@ -23,7 +23,7 @@ class UserDataValidatorTest {
     }
 
     @Test
-    fun validatePassword() {
+    fun `validate password`() {
         // GIVEN
         val password = "Test12345"
         // WHEN
@@ -40,7 +40,7 @@ class UserDataValidatorTest {
         "Test-12345, true",
         "TEST12345, false",
     )
-    fun validateMultiplePassword(password: String, expectedIsValid: Boolean) {
+    fun `validate multiple password`(password: String, expectedIsValid: Boolean) {
         // WHEN
         val result = validator.validatePassword(password)
         // THEN

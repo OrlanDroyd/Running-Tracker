@@ -19,7 +19,7 @@ class LocationDataCalculatorTest {
     }
 
     @Test
-    fun getMaxSpeedKmh() {
+    fun `get max speed Kmh`() {
         val locations = listOf(
             listOf(
                 LocationTimestamp(
