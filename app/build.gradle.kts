@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.runningtracker.android.application.compose)
     alias(libs.plugins.runningtracker.jvm.ktor)
+    alias(libs.plugins.runningtracker.android.junit5)
     alias(libs.plugins.detekt)
 }
 
